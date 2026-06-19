@@ -129,63 +129,119 @@ Using Next.js API Routes (`/app/api/...`):
 
 ## 4. Phased Implementation Plan
 
-### Phase 1: Static MVP & Foundation
-*   **Goal:** Set up the Next.js project structure, design the core UI layout, and display hardcoded guide data to establish the visual aesthetic.
-*   **Files/Folders to Create/Modify:**
-    *   `package.json` (Initialize Next.js)
-    *   `app/layout.tsx` (Root layout, global CSS, navbar, footer)
-    *   `app/page.tsx` (Homepage with search bar, categories, and featured guides)
-    *   `app/guides/[slug]/page.tsx` (Guide detail page UI for steps and tools)
-    *   `components/GuideCard.tsx` (Reusable UI component for listing guides)
-    *   `data/mockGuides.ts` (Hardcoded JSON data for testing UI without a DB)
-*   **Third-Party:** `lite-youtube-embed` (for performant video UI).
+This section outlines a fully synchronized, step-by-step phased approach. Each phase lays the groundwork for the next, detailing the goals, terminal commands for library installments, and the file structures to create.
 
-### Phase 2: Database Integration
-*   **Goal:** Replace hardcoded mock data with a live PostgreSQL database and establish the schema.
-*   **Files/Folders to Create/Modify:**
-    *   `prisma/schema.prisma` (Define the database schema from Section 2)
-    *   `lib/db.ts` (Prisma client singleton instantiation)
-    *   `app/api/guides/route.ts` (API to fetch guides from DB)
-    *   `app/guides/[slug]/page.tsx` (Update to fetch data dynamically via API/Server Components)
-*   **Third-Party:** Supabase (Database hosting), Prisma ORM.
+### Phase 1: Foundation & Project Setup
+*   **Goal:** Initialize the Next.js project, install core dependencies, and establish a scalable file structure.
+*   **Step-by-Step:**
+    1.  **Initialize Project:** Run `npx create-next-app@latest ./` (Select TypeScript, ESLint, App Router, and your preferred styling option like Vanilla CSS Modules or Tailwind).
+    2.  **Library Installments:**
+        *   `npm install lucide-react` (Icons)
+        *   `npm install clsx tailwind-merge` (Utility for class merging if using Tailwind, otherwise skip)
+    3.  **Establish File Structure:** Create the following baseline structure:
+        *   `src/app/` (Next.js app router pages)
+        *   `src/components/ui/` (Reusable base components like Buttons, Inputs)
+        *   `src/components/layout/` (Navbar, Footer, Sidebar)
+        *   `src/lib/` (Utility functions, constants)
+        *   `src/types/` (TypeScript interfaces)
+        *   `src/assets/` (Static images, fonts)
+*   **Files to Create:**
+    *   `src/app/layout.tsx` & `src/app/page.tsx` (Initial layout and homepage)
+    *   `src/components/layout/Navbar.tsx` & `src/components/layout/Footer.tsx`
 
-### Phase 3: User Accounts & Contributions
-*   **Goal:** Allow users to sign up, log in, save favorite guides, and submit their own guides.
-*   **Files/Folders to Create/Modify:**
-    *   `app/api/auth/[...nextauth]/route.ts` (NextAuth configuration)
-    *   `app/login/page.tsx` (Login UI with OAuth/Email providers)
-    *   `app/guides/submit/page.tsx` (Multi-step form for users to write instructions and select tools)
-    *   `app/api/guides/route.ts` (Add POST method to handle guide DB insertions)
-    *   `app/dashboard/page.tsx` (User dashboard to view saved/submitted guides)
-*   **Third-Party:** NextAuth.js.
+### Phase 2: Mock Data & Static UI Implementation
+*   **Goal:** Build the core UI components and page layouts using hardcoded mock data to validate the design before backend integration.
+*   **Step-by-Step:**
+    1.  **Define Mock Data:** Create mock JSON objects representing guides, categories, and technicians.
+    2.  **Library Installments:**
+        *   `npm install lite-youtube-embed` (For performant video embeds)
+    3.  **Build UI Components:** Implement reusable elements like `GuideCard`, `CategoryPill`, and `TechnicianCard`.
+    4.  **Develop Pages:** Build out the static UI for the Homepage, Search results, and Guide Detail pages.
+*   **Files to Create:**
+    *   `src/data/mockGuides.ts` & `src/data/mockTechnicians.ts`
+    *   `src/components/ui/GuideCard.tsx`
+    *   `src/components/ui/TechnicianCard.tsx`
+    *   `src/app/guides/[slug]/page.tsx` (Static representation of guide steps/tools)
 
-### Phase 4: RAG Troubleshooting Assistant
-*   **Goal:** Implement the AI chatbot that retrieves relevant guides based on semantic vector search.
-*   **Files/Folders to Create/Modify:**
-    *   `lib/openai.ts` (OpenAI client setup)
-    *   `lib/embeddings.ts` (Utility to generate embeddings for guides when published)
-    *   `app/api/chat/route.ts` (Handles chat logic: Vector DB search -> Context assembly -> Streaming OpenAI response)
-    *   `app/troubleshoot/page.tsx` (Chatbot UI interface)
-    *   `components/ChatBubble.tsx` (Individual chat message UI component)
-*   **Third-Party:** OpenAI API, Vercel AI SDK (for UI stream handling), Supabase `pgvector`.
+### Phase 3: Database & ORM Integration
+*   **Goal:** Replace mock data with a live PostgreSQL database via Supabase and Prisma ORM.
+*   **Step-by-Step:**
+    1.  **Setup Supabase:** Create a new Supabase project, enable `pgvector` extension, and obtain the Postgres connection string.
+    2.  **Library Installments:**
+        *   `npm install prisma --save-dev`
+        *   `npm install @prisma/client`
+    3.  **Initialize Prisma:** Run `npx prisma init`.
+    4.  **Define Schema:** Update `prisma/schema.prisma` with the complete database schema.
+    5.  **Migrate Database:** Run `npx prisma migrate dev --name init`.
+    6.  **Create API Routes:** Build API routes or Server Actions to fetch data dynamically from the database.
+*   **Files to Create:**
+    *   `prisma/schema.prisma`
+    *   `src/lib/db.ts` (Prisma singleton client instantiation)
+    *   `src/app/api/guides/route.ts` (Dynamic data fetching)
 
-### Phase 5: Technician Marketplace
-*   **Goal:** Add location-based technician search and service booking capabilities.
-*   **Files/Folders to Create/Modify:**
-    *   `app/technicians/page.tsx` (Interactive map and list view of nearby technicians)
-    *   `components/Map.tsx` (Mapbox rendering component)
-    *   `app/api/technicians/route.ts` (Backend PostGIS spatial query to find technicians within radius)
-    *   `app/technicians/[id]/book/page.tsx` (Booking request form)
-    *   `app/api/bookings/route.ts` (Handle booking DB transactions)
-*   **Third-Party:** Mapbox GL JS, Stripe Connect (if integrating payments directly).
+### Phase 4: Authentication & User Accounts
+*   **Goal:** Implement user registration, login, protected routes, and user dashboards.
+*   **Step-by-Step:**
+    1.  **Configure Auth Providers:** Set up Google/GitHub OAuth apps and configure email providers.
+    2.  **Library Installments:**
+        *   `npm install next-auth`
+        *   `npm install @auth/prisma-adapter`
+    3.  **Setup NextAuth:** Implement the NextAuth configuration and wrap the app in a Session Provider (if needed for client components).
+    4.  **Develop Auth Pages:** Build Login and Registration forms.
+    5.  **Protect Routes:** Add Next.js middleware to protect user-specific pages.
+*   **Files to Create:**
+    *   `src/app/api/auth/[...nextauth]/route.ts`
+    *   `src/app/login/page.tsx`
+    *   `src/middleware.ts`
+    *   `src/app/dashboard/page.tsx`
 
-### Phase 6: Polish, Testing & Admin Deployment
-*   **Goal:** Finalize moderation tools, write automated tests, and deploy to production.
-*   **Files/Folders to Create/Modify:**
-    *   `app/admin/page.tsx` (Dashboard for admins to approve/reject user guides)
-    *   `tests/guides.test.ts` (Unit tests for core guide submission logic)
-    *   `playwright.config.ts` (E2E testing setup)
-*   **Third-Party:** Vercel (Hosting Platform).
+### Phase 5: Guide Submission & AI RAG Integration
+*   **Goal:** Allow users to create guides and integrate the semantic AI troubleshooting assistant.
+*   **Step-by-Step:**
+    1.  **Develop Submission Form:** Create a multi-step form for submitting guides, writing steps, and selecting tools.
+    2.  **Library Installments:**
+        *   `npm install openai ai` (Vercel AI SDK and OpenAI client)
+    3.  **Embeddings Setup:** Write utilities to generate text embeddings when a guide is published and store them in the `pgvector` enabled database.
+    4.  **Build Chat API:** Implement the backend route to handle vector similarity search and streaming OpenAI responses.
+    5.  **Create Chat UI:** Build the user-facing AI chat interface for troubleshooting.
+*   **Files to Create:**
+    *   `src/app/guides/submit/page.tsx`
+    *   `src/lib/openai.ts` & `src/lib/embeddings.ts`
+    *   `src/app/api/chat/route.ts`
+    *   `src/app/troubleshoot/page.tsx`
+    *   `src/components/ui/ChatBubble.tsx`
+
+### Phase 6: Technician Marketplace & Geolocation
+*   **Goal:** Add technician discovery, interactive mapping, and booking capabilities.
+*   **Step-by-Step:**
+    1.  **Integrate Maps:** Set up a Mapbox account and obtain API tokens.
+    2.  **Library Installments:**
+        *   `npm install mapbox-gl`
+        *   `npm install stripe @stripe/stripe-js` (For booking payments, platform fees, and KYC)
+    3.  **Implement Map UI:** Render an interactive map showing pins for nearby technicians based on user location.
+    4.  **Spatial Queries:** Implement backend spatial queries to find technicians within a specific radius.
+    5.  **Booking Flow:** Create the UI and backend logic for requesting, accepting, and managing bookings.
+*   **Files to Create:**
+    *   `src/app/technicians/page.tsx`
+    *   `src/components/ui/Map.tsx`
+    *   `src/app/api/technicians/route.ts`
+    *   `src/app/technicians/[id]/book/page.tsx`
+    *   `src/app/api/bookings/route.ts`
+
+### Phase 7: Polish, Testing & Deployment
+*   **Goal:** Finalize moderation tools, write automated tests, and deploy the application to production.
+*   **Step-by-Step:**
+    1.  **Admin Dashboard:** Create an admin interface for approving or rejecting user-submitted guides.
+    2.  **Library Installments:**
+        *   `npm install vitest --save-dev` (Unit testing)
+        *   `npm init playwright@latest` (E2E testing)
+    3.  **Write Tests:** Implement unit tests for core logic and E2E tests for critical user paths (e.g., booking a technician, chatting with AI).
+    4.  **Deploy to Vercel:** Push code to GitHub, connect to Vercel, and configure environment variables.
+    5.  **Database Migration:** Run final production database migrations.
+*   **Files to Create:**
+    *   `src/app/admin/page.tsx`
+    *   `tests/guides.test.ts`
+    *   `playwright.config.ts`
 
 ---
 
