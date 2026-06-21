@@ -1,5 +1,72 @@
 # RepairIt - Project Architecture & Implementation Plan
 
+## Suggested File Structure
+
+```text
+RepairIt/
+├── PROJECT_PLAN.md
+├── README.md
+├── package.json
+├── tsconfig.json
+├── next.config.mjs
+├── tailwind.config.ts
+├── middleware.ts
+├── playwright.config.ts
+├── prisma/
+│   └── schema.prisma
+├── tests/
+│   └── guides.test.ts
+└── src/
+    ├── app/
+    │   ├── layout.tsx
+    │   ├── page.tsx
+    │   ├── login/
+    │   │   └── page.tsx
+    │   ├── dashboard/
+    │   │   └── page.tsx
+    │   ├── admin/
+    │   │   └── page.tsx
+    │   ├── troubleshoot/
+    │   │   └── page.tsx
+    │   ├── technicians/
+    │   │   ├── page.tsx
+    │   │   └── [id]/book/
+    │   │       └── page.tsx
+    │   ├── guides/
+    │   │   ├── [slug]/
+    │   │   │   └── page.tsx
+    │   │   └── submit/
+    │   │       └── page.tsx
+    │   └── api/
+    │       ├── auth/[...nextauth]/route.ts
+    │       ├── chat/route.ts
+    │       ├── guides/
+    │       │   ├── route.ts
+    │       │   └── [id]/status/route.ts
+    │       ├── technicians/route.ts
+    │       └── bookings/
+    │           ├── route.ts
+    │           └── [id]/route.ts
+    ├── components/
+    │   ├── ui/
+    │   │   ├── GuideCard.tsx
+    │   │   ├── TechnicianCard.tsx
+    │   │   ├── ChatBubble.tsx
+    │   │   └── Map.tsx
+    │   └── layout/
+    │       ├── Navbar.tsx
+    │       └── Footer.tsx
+    ├── data/
+    │   ├── mockGuides.ts
+    │   └── mockTechnicians.ts
+    ├── lib/
+    │   ├── db.ts
+    │   ├── openai.ts
+    │   └── embeddings.ts
+    ├── types/
+    └── assets/
+```
+
 ## 1. Technology Stack Recommendation
 
 Optimized for a solo developer/small team seeking a production-ready, highly maintainable, and scalable application without over-engineering.
