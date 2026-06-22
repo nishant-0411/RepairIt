@@ -6,97 +6,92 @@
 RepairIt/
 ├── PROJECT_PLAN.md
 ├── README.md
-├── package.json
-├── tsconfig.json
-├── next.config.mjs
-├── tailwind.config.ts
-├── middleware.ts
-├── playwright.config.ts
-├── prisma/
-│   └── schema.prisma
-├── tests/
-│   └── guides.test.ts
-└── src/
-    ├── app/
-    │   ├── layout.tsx
-    │   ├── page.tsx
-    │   ├── login/
-    │   │   └── page.tsx
-    │   ├── dashboard/
-    │   │   └── page.tsx
-    │   ├── admin/
-    │   │   └── page.tsx
-    │   ├── troubleshoot/
-    │   │   └── page.tsx
-    │   ├── technicians/
-    │   │   ├── page.tsx
-    │   │   └── [id]/book/
-    │   │       └── page.tsx
-    │   ├── guides/
-    │   │   ├── [slug]/
-    │   │   │   └── page.tsx
-    │   │   └── submit/
-    │   │       └── page.tsx
-    │   └── api/
-    │       ├── auth/[...nextauth]/route.ts
-    │       ├── chat/route.ts
-    │       ├── guides/
-    │       │   ├── route.ts
-    │       │   └── [id]/status/route.ts
-    │       ├── technicians/route.ts
-    │       └── bookings/
-    │           ├── route.ts
-    │           └── [id]/route.ts
-    ├── components/
-    │   ├── ui/
-    │   │   ├── GuideCard.tsx
-    │   │   ├── TechnicianCard.tsx
-    │   │   ├── ChatBubble.tsx
-    │   │   └── Map.tsx
-    │   └── layout/
-    │       ├── Navbar.tsx
-    │       └── Footer.tsx
-    ├── data/
-    │   ├── mockGuides.ts
-    │   └── mockTechnicians.ts
-    ├── lib/
-    │   ├── db.ts
-    │   ├── openai.ts
-    │   └── embeddings.ts
-    ├── types/
-    └── assets/
+├── frontend/
+│   ├── package.json
+│   ├── tsconfig.json
+│   ├── next.config.mjs
+│   ├── tailwind.config.ts
+│   ├── middleware.ts
+│   ├── playwright.config.ts
+│   ├── tests/
+│   │   └── guides.test.ts
+│   └── src/
+│       ├── app/
+│       │   ├── layout.tsx
+│       │   ├── page.tsx
+│       │   ├── login/
+│       │   ├── dashboard/
+│       │   ├── troubleshoot/
+│       │   ├── technicians/
+│       │   └── guides/
+│       ├── components/
+│       │   ├── ui/
+│       │   └── layout/
+│       ├── lib/
+│       └── types/
+└── backend/
+    ├── requirements.txt
+    ├── alembic.ini
+    ├── main.py
+    ├── tests/
+    │   └── test_guides.py
+    ├── alembic/
+    │   └── versions/
+    └── app/
+        ├── api/
+        │   ├── v1/
+        │   │   ├── endpoints/
+        │   │   │   ├── auth.py
+        │   │   │   ├── chat.py
+        │   │   │   ├── guides.py
+        │   │   │   ├── technicians.py
+        │   │   │   └── bookings.py
+        │   │   └── api.py
+        ├── core/
+        │   ├── config.py
+        │   └── security.py
+        ├── models/
+        │   └── domain.py
+        ├── schemas/
+        │   ├── guide.py
+        │   ├── user.py
+        │   └── technician.py
+        ├── services/
+        │   ├── ai.py
+        │   └── mapbox.py
+        └── db/
+            ├── session.py
+            └── base.py
 ```
 
 ## 1. Technology Stack Recommendation
 
-Optimized for a solo developer/small team seeking a production-ready, highly maintainable, and scalable application without over-engineering.
+Optimized for a developer with Python and FastAPI knowledge, maintaining a highly scalable decoupled architecture.
 
-*   **Frontend & Backend Framework:** **Next.js (App Router)**
-    *   *Reasoning:* Excellent for SEO (crucial for repair guides), built-in API routes simplify the backend by keeping it in the same repository, and fast development cycle.
+*   **Backend Framework:** **FastAPI (Python)**
+    *   *Reasoning:* High performance, extremely fast development, automatic interactive API documentation (Swagger UI), and native asynchronous support perfect for AI integrations and external API calls.
+*   **Frontend Framework:** **Next.js (App Router)**
+    *   *Reasoning:* Excellent for SEO (crucial for repair guides), fast page loads, and modern React features. It will consume the FastAPI backend.
 *   **Database & Vector Store:** **PostgreSQL via Supabase**
-    *   *Reasoning:* Supabase provides managed PostgreSQL, which is perfect for structured relational data. Crucially, it includes the `pgvector` extension, allowing you to store guide embeddings in the *same* database as your regular data, eliminating the need for a separate vector database.
-*   **ORM:** **Prisma**
-    *   *Reasoning:* Type-safe, excellent developer experience, and integrates seamlessly with Next.js and PostgreSQL.
-*   **Authentication:** **NextAuth.js (Auth.js) or Supabase Auth**
-    *   *Reasoning:* Handles OAuth (Google/GitHub) and email/password easily, integrates perfectly with Next.js and Prisma.
-*   **Styling:** **Vanilla CSS Modules** (or standard CSS)
-    *   *Reasoning:* Keeps styles scoped locally to components, avoiding global conflicts. 
+    *   *Reasoning:* Supabase provides managed PostgreSQL, which is perfect for structured relational data. Crucially, it includes the `pgvector` extension, allowing you to store guide embeddings in the *same* database as your regular data.
+*   **ORM:** **SQLAlchemy 2.0 & Alembic (Python)**
+    *   *Reasoning:* The standard ORM in the Python ecosystem. SQLAlchemy 2.0 supports async database queries, and Alembic handles robust database migrations.
+*   **Authentication:** **Supabase Auth or FastAPI Users**
+    *   *Reasoning:* Supabase handles OAuth and email/password securely. FastAPI can verify the JWT tokens sent by the frontend via middleware.
 *   **AI / RAG Assistant:** **OpenAI API (`gpt-4o-mini` & `text-embedding-3-small`)**
-    *   *Reasoning:* Industry standard, easy to use, cost-effective for embeddings and basic chat completions.
+    *   *Reasoning:* Easily integrated via the official `openai` Python package or `langchain` in the FastAPI backend for RAG and semantic search.
 *   **Maps / Geolocation:** **Mapbox GL JS**
-    *   *Reasoning:* Generous free tier, excellent developer experience, and beautiful customizable map styles for technician search. Postgres/PostGIS will handle the backend spatial queries.
-*   **Video Embedding:** **`lite-youtube-embed` package**
-    *   *Reasoning:* Drastically improves page load performance compared to standard iframes, improving Core Web Vitals and SEO.
+    *   *Reasoning:* Generous free tier, excellent developer experience. FastAPI backend will handle spatial queries using PostGIS or math-based bounding boxes.
 *   **Payments / Booking:** **Stripe Connect**
-    *   *Reasoning:* Essential for marketplace dynamics (routing money to technicians while you take a platform fee) while handling tax compliance and identity verification (KYC).
-*   **Hosting:** **Vercel**
-    *   *Reasoning:* Zero-config deployments for Next.js, automatically handles serverless edge functions.
+    *   *Reasoning:* Stripe's Python SDK is excellent for handling marketplace dynamics, routing money, and KYC identity verification.
+*   **Hosting:** **Vercel (Frontend) & Render/Railway (Backend)**
+    *   *Reasoning:* Vercel is best-in-class for Next.js. Render or Railway provide simple Docker-based or native Python deployments for the FastAPI application.
 
 ---
 
 ## 2. Core Database Schema
 
-This schema is designed for a relational database (PostgreSQL) using Prisma ORM.
+This schema is designed for a relational database (PostgreSQL) using SQLAlchemy ORM.
 
 ### Tables & Key Fields
 
@@ -105,17 +100,17 @@ This schema is designed for a relational database (PostgreSQL) using Prisma ORM.
     *   `email` (String, Unique)
     *   `name` (String)
     *   `role` (Enum: `USER`, `TECHNICIAN`, `ADMIN`)
-    *   `createdAt` (DateTime)
+    *   `created_at` (DateTime)
 
 *   **TechnicianProfile**
     *   `id` (UUID, PK)
-    *   `userId` (UUID, FK to User, Unique)
+    *   `user_id` (UUID, FK to User, Unique)
     *   `bio` (Text)
-    *   `hourlyRate` (Decimal)
+    *   `hourly_rate` (Decimal)
     *   `latitude` (Float)
     *   `longitude` (Float)
-    *   `serviceRadiusKm` (Int)
-    *   `isVerified` (Boolean)
+    *   `service_radius_km` (Int)
+    *   `is_verified` (Boolean)
 
 *   **Category**
     *   `id` (UUID, PK)
@@ -125,215 +120,140 @@ This schema is designed for a relational database (PostgreSQL) using Prisma ORM.
 *   **Tool**
     *   `id` (UUID, PK)
     *   `name` (String)
-    *   `affiliateLink` (String, Optional)
-    *   `imageUrl` (String, Optional)
+    *   `affiliate_link` (String, Optional)
+    *   `image_url` (String, Optional)
 
 *   **Guide**
     *   `id` (UUID, PK)
     *   `title` (String)
     *   `slug` (String, Unique)
-    *   `categoryId` (UUID, FK to Category)
-    *   `authorId` (UUID, FK to User)
+    *   `category_id` (UUID, FK to Category)
+    *   `author_id` (UUID, FK to User)
     *   `difficulty` (Enum: `EASY`, `MEDIUM`, `HARD`)
-    *   `estimatedTimeMinutes` (Int)
-    *   `youtubeVideoId` (String, Optional)
+    *   `estimated_time_minutes` (Int)
+    *   `youtube_video_id` (String, Optional)
     *   `status` (Enum: `DRAFT`, `PENDING_REVIEW`, `PUBLISHED`)
-    *   `embedding` (Vector, for pgvector similarity search)
+    *   `embedding` (Vector, pgvector type)
 
 *   **GuideStep**
     *   `id` (UUID, PK)
-    *   `guideId` (UUID, FK to Guide)
-    *   `stepNumber` (Int)
+    *   `guide_id` (UUID, FK to Guide)
+    *   `step_number` (Int)
     *   `instruction` (Text)
-    *   `imageUrl` (String, Optional)
+    *   `image_url` (String, Optional)
 
 *   **GuideTool** (Join Table)
-    *   `guideId` (UUID, FK to Guide)
-    *   `toolId` (UUID, FK to Tool)
+    *   `guide_id` (UUID, FK to Guide)
+    *   `tool_id` (UUID, FK to Tool)
 
 *   **Booking**
     *   `id` (UUID, PK)
-    *   `userId` (UUID, FK to User)
-    *   `technicianId` (UUID, FK to TechnicianProfile)
+    *   `user_id` (UUID, FK to User)
+    *   `technician_id` (UUID, FK to TechnicianProfile)
     *   `status` (Enum: `PENDING`, `ACCEPTED`, `COMPLETED`, `CANCELLED`)
-    *   `scheduledAt` (DateTime)
+    *   `scheduled_at` (DateTime)
     *   `description` (Text)
-
-*   **Review**
-    *   `id` (UUID, PK)
-    *   `reviewerId` (UUID, FK to User)
-    *   `targetId` (UUID - Polymorphic, can be Guide or Technician)
-    *   `targetType` (Enum: `GUIDE`, `TECHNICIAN`)
-    *   `rating` (Int 1-5)
-    *   `comment` (Text)
 
 ---
 
-## 3. Core API Endpoints
+## 3. Core API Endpoints (FastAPI)
 
-Using Next.js API Routes (`/app/api/...`):
+Using FastAPI Routers under `/api/v1`:
 
 ### Guides & Content
-*   `GET /api/categories` - List all categories
-*   `GET /api/guides` - List/search published guides (Query params: category, difficulty, search term)
-*   `GET /api/guides/[slug]` - Get specific guide details, including its steps and tools
-*   `POST /api/guides` - Submit a new user-generated guide (Requires Auth)
+*   `GET /api/v1/categories` - List all categories
+*   `GET /api/v1/guides` - List/search published guides (Query params: category, difficulty, search)
+*   `GET /api/v1/guides/{slug}` - Get specific guide details, including its steps and tools
+*   `POST /api/v1/guides` - Submit a new user-generated guide (Requires Auth token)
 
 ### AI Assistant
-*   `POST /api/chat` - Accepts a user query, generates an embedding, performs a pgvector similarity search on `Guide.embedding`, and returns a grounded streaming AI response.
+*   `POST /api/v1/chat` - Accepts user query, generates embedding via OpenAI, performs pgvector similarity search on `Guide.embedding` via SQLAlchemy, and returns streaming response.
 
 ### Technicians & Market
-*   `GET /api/technicians` - Search technicians (Query params: lat, lng, radius, category)
-*   `GET /api/technicians/[id]` - Get technician profile and their reviews
-*   `POST /api/bookings` - Request a booking (Requires Auth)
-*   `PATCH /api/bookings/[id]` - Accept/Cancel booking (Requires Auth)
+*   `GET /api/v1/technicians` - Search technicians (Query params: lat, lng, radius, category)
+*   `GET /api/v1/technicians/{id}` - Get technician profile and reviews
+*   `POST /api/v1/bookings` - Request a booking (Requires Auth token)
+*   `PATCH /api/v1/bookings/{id}` - Accept/Cancel booking (Requires Auth token)
 
 ### Admin
-*   `GET /api/admin/guides/pending` - List user-submitted guides pending review
-*   `PATCH /api/admin/guides/[id]/status` - Approve or reject a guide
+*   `GET /api/v1/admin/guides/pending` - List user-submitted guides pending review
+*   `PATCH /api/v1/admin/guides/{id}/status` - Approve or reject a guide
 
 ---
 
 ## 4. Phased Implementation Plan
 
-This section outlines a fully synchronized, step-by-step phased approach. Each phase lays the groundwork for the next, detailing the goals, terminal commands for library installments, and the file structures to create.
-
 ### Phase 1: Foundation & Project Setup
-*   **Goal:** Initialize the Next.js project, install core dependencies, and establish a scalable file structure.
+*   **Goal:** Initialize the Next.js frontend and FastAPI backend repositories/folders.
 *   **Step-by-Step:**
-    1.  **Initialize Project:** Run `npx create-next-app@latest ./` (Select TypeScript, ESLint, App Router, and your preferred styling option like Vanilla CSS Modules or Tailwind).
-    2.  **Library Installments:**
-        *   `npm install lucide-react` (Icons)
-        *   `npm install clsx tailwind-merge` (Utility for class merging if using Tailwind, otherwise skip)
-    3.  **Establish File Structure:** Create the following baseline structure:
-        *   `src/app/` (Next.js app router pages)
-        *   `src/components/ui/` (Reusable base components like Buttons, Inputs)
-        *   `src/components/layout/` (Navbar, Footer, Sidebar)
-        *   `src/lib/` (Utility functions, constants)
-        *   `src/types/` (TypeScript interfaces)
-        *   `src/assets/` (Static images, fonts)
-*   **Files to Create:**
-    *   `src/app/layout.tsx` & `src/app/page.tsx` (Initial layout and homepage)
-    *   `src/components/layout/Navbar.tsx` & `src/components/layout/Footer.tsx`
+    1.  **Backend Init:** Create `backend` folder, set up virtual environment (`python -m venv venv`), and install FastAPI: `pip install fastapi uvicorn pydantic`.
+    2.  **Frontend Init:** Create `frontend` folder, run `npx create-next-app@latest ./` (Select App Router).
+    3.  **Basic Routing:** Setup `/api/v1/health` endpoint in FastAPI and ensure the frontend can fetch from it.
 
-### Phase 2: Mock Data & Static UI Implementation
-*   **Goal:** Build the core UI components and page layouts using hardcoded mock data to validate the design before backend integration.
+### Phase 2: Database & ORM Integration (Backend)
+*   **Goal:** Set up Supabase PostgreSQL, SQLAlchemy, and Alembic.
 *   **Step-by-Step:**
-    1.  **Define Mock Data:** Create mock JSON objects representing guides, categories, and technicians.
-    2.  **Library Installments:**
-        *   `npm install lite-youtube-embed` (For performant video embeds)
-    3.  **Build UI Components:** Implement reusable elements like `GuideCard`, `CategoryPill`, and `TechnicianCard`.
-    4.  **Develop Pages:** Build out the static UI for the Homepage, Search results, and Guide Detail pages.
-*   **Files to Create:**
-    *   `src/data/mockGuides.ts` & `src/data/mockTechnicians.ts`
-    *   `src/components/ui/GuideCard.tsx`
-    *   `src/components/ui/TechnicianCard.tsx`
-    *   `src/app/guides/[slug]/page.tsx` (Static representation of guide steps/tools)
+    1.  **Setup Supabase:** Create a project, enable `pgvector`, get connection string.
+    2.  **Install DB Packages:** `pip install sqlalchemy alembic asyncpg psycopg2-binary pgvector`.
+    3.  **Define Models:** Write SQLAlchemy declarative models for Users, Guides, Technicians, etc.
+    4.  **Migrations:** Initialize Alembic (`alembic init alembic`), configure it to read your SQLAlchemy metadata, and run the first migration.
+    5.  **CRUD Operations:** Write Pydantic schemas and database CRUD functions.
 
-### Phase 3: Database & ORM Integration
-*   **Goal:** Replace mock data with a live PostgreSQL database via Supabase and Prisma ORM.
+### Phase 3: Static UI & Mock Integration (Frontend)
+*   **Goal:** Build the Next.js UI using mocked API calls.
 *   **Step-by-Step:**
-    1.  **Setup Supabase:** Create a new Supabase project, enable `pgvector` extension, and obtain the Postgres connection string.
-    2.  **Library Installments:**
-        *   `npm install prisma --save-dev`
-        *   `npm install @prisma/client`
-    3.  **Initialize Prisma:** Run `npx prisma init`.
-    4.  **Define Schema:** Update `prisma/schema.prisma` with the complete database schema.
-    5.  **Migrate Database:** Run `npx prisma migrate dev --name init`.
-    6.  **Create API Routes:** Build API routes or Server Actions to fetch data dynamically from the database.
-*   **Files to Create:**
-    *   `prisma/schema.prisma`
-    *   `src/lib/db.ts` (Prisma singleton client instantiation)
-    *   `src/app/api/guides/route.ts` (Dynamic data fetching)
+    1.  **UI Components:** Build `GuideCard`, `TechnicianCard`, etc.
+    2.  **Pages:** Develop Homepage, Search, Guide Detail pages.
+    3.  **Connect to Backend:** Gradually replace mock data with fetch calls to your running FastAPI backend.
 
 ### Phase 4: Authentication & User Accounts
-*   **Goal:** Implement user registration, login, protected routes, and user dashboards.
+*   **Goal:** Secure the API and UI.
 *   **Step-by-Step:**
-    1.  **Configure Auth Providers:** Set up Google/GitHub OAuth apps and configure email providers.
-    2.  **Library Installments:**
-        *   `npm install next-auth`
-        *   `npm install @auth/prisma-adapter`
-    3.  **Setup NextAuth:** Implement the NextAuth configuration and wrap the app in a Session Provider (if needed for client components).
-    4.  **Develop Auth Pages:** Build Login and Registration forms.
-    5.  **Protect Routes:** Add Next.js middleware to protect user-specific pages.
-*   **Files to Create:**
-    *   `src/app/api/auth/[...nextauth]/route.ts`
-    *   `src/app/login/page.tsx`
-    *   `src/middleware.ts`
-    *   `src/app/dashboard/page.tsx`
+    1.  **Backend Auth:** Configure FastAPI to validate JWT tokens. You can use Supabase Auth to handle token generation, and FastAPI `Depends` to verify the JWT in protected routes.
+    2.  **Frontend Auth:** Integrate Supabase JS client to handle login/signup and store the session.
+    3.  **Protect UI Routes:** Add Next.js middleware to block unauthenticated users from `/dashboard`.
 
-### Phase 5: Guide Submission & AI RAG Integration
-*   **Goal:** Allow users to create guides and integrate the semantic AI troubleshooting assistant.
+### Phase 5: AI RAG & Guide Submission
+*   **Goal:** Implement guide creation and the AI assistant in Python.
 *   **Step-by-Step:**
-    1.  **Develop Submission Form:** Create a multi-step form for submitting guides, writing steps, and selecting tools.
-    2.  **Library Installments:**
-        *   `npm install openai ai` (Vercel AI SDK and OpenAI client)
-    3.  **Embeddings Setup:** Write utilities to generate text embeddings when a guide is published and store them in the `pgvector` enabled database.
-    4.  **Build Chat API:** Implement the backend route to handle vector similarity search and streaming OpenAI responses.
-    5.  **Create Chat UI:** Build the user-facing AI chat interface for troubleshooting.
-*   **Files to Create:**
-    *   `src/app/guides/submit/page.tsx`
-    *   `src/lib/openai.ts` & `src/lib/embeddings.ts`
-    *   `src/app/api/chat/route.ts`
-    *   `src/app/troubleshoot/page.tsx`
-    *   `src/components/ui/ChatBubble.tsx`
+    1.  **Install AI Packages:** `pip install openai`.
+    2.  **Backend Embeddings:** When a POST request is made to create a guide, trigger OpenAI API to generate an embedding and save it to the `pgvector` column.
+    3.  **Chat Endpoint:** Implement `/api/v1/chat`. Use pgvector to find similar guides, build a prompt context, and return a streaming response using FastAPI's `StreamingResponse`.
+    4.  **Frontend Chat UI:** Build the Chat interface and handle the text stream.
 
 ### Phase 6: Technician Marketplace & Geolocation
-*   **Goal:** Add technician discovery, interactive mapping, and booking capabilities.
+*   **Goal:** Add maps and Stripe integration.
 *   **Step-by-Step:**
-    1.  **Integrate Maps:** Set up a Mapbox account and obtain API tokens.
-    2.  **Library Installments:**
-        *   `npm install mapbox-gl`
-        *   `npm install stripe @stripe/stripe-js` (For booking payments, platform fees, and KYC)
-    3.  **Implement Map UI:** Render an interactive map showing pins for nearby technicians based on user location.
-    4.  **Spatial Queries:** Implement backend spatial queries to find technicians within a specific radius.
-    5.  **Booking Flow:** Create the UI and backend logic for requesting, accepting, and managing bookings.
-*   **Files to Create:**
-    *   `src/app/technicians/page.tsx`
-    *   `src/components/ui/Map.tsx`
-    *   `src/app/api/technicians/route.ts`
-    *   `src/app/technicians/[id]/book/page.tsx`
-    *   `src/app/api/bookings/route.ts`
+    1.  **Backend Spatial:** Add bounding box math or PostGIS queries in SQLAlchemy to find technicians nearby.
+    2.  **Stripe API:** `pip install stripe`. Add endpoints for creating payment intents and managing Connected accounts.
+    3.  **Frontend Map:** Integrate `mapbox-gl` into Next.js.
+    4.  **Booking Flow:** Complete the frontend and backend loop for requesting bookings.
 
 ### Phase 7: Polish, Testing & Deployment
-*   **Goal:** Finalize moderation tools, write automated tests, and deploy the application to production.
+*   **Goal:** Unit tests and production deployment.
 *   **Step-by-Step:**
-    1.  **Admin Dashboard:** Create an admin interface for approving or rejecting user-submitted guides.
-    2.  **Library Installments:**
-        *   `npm install vitest --save-dev` (Unit testing)
-        *   `npm init playwright@latest` (E2E testing)
-    3.  **Write Tests:** Implement unit tests for core logic and E2E tests for critical user paths (e.g., booking a technician, chatting with AI).
-    4.  **Deploy to Vercel:** Push code to GitHub, connect to Vercel, and configure environment variables.
-    5.  **Database Migration:** Run final production database migrations.
-*   **Files to Create:**
-    *   `src/app/admin/page.tsx`
-    *   `tests/guides.test.ts`
-    *   `playwright.config.ts`
+    1.  **Backend Testing:** Write `pytest` fixtures for database and endpoint testing.
+    2.  **Frontend Testing:** Use `Playwright` for E2E tests.
+    3.  **Deployment:** Deploy Next.js to Vercel. Deploy FastAPI app to Render, Railway, or Heroku via a Dockerfile or standard Python buildpacks.
 
 ---
 
 ## 5. Testing & Deployment Strategy
 
 ### Testing
-*   **Unit/Integration Tests:** Use `Vitest` to test business logic (e.g., verifying booking date validity, ensuring the RAG context builder returns the correct top-k guides).
-*   **End-to-End (E2E) Tests:** Use `Playwright` to test critical user paths on a staging database:
-    *   *Path A:* User signs up -> browses a guide -> interacts with the AI troubleshooting assistant.
-    *   *Path B:* Technician creates a profile -> Sets location -> User finds technician on map -> User books technician.
+*   **Backend (FastAPI):** Use `pytest` alongside `httpx` to test API routes. Use an in-memory SQLite database or a test PostgreSQL instance for database testing.
+*   **Frontend (Next.js):** Use `Playwright` to test critical user paths across the frontend, mocking backend API responses if necessary.
 
-### Deployment Steps (via Vercel)
-1.  Push the finalized code to a GitHub repository.
-2.  Connect the GitHub repository to a new Vercel project.
-3.  Set necessary Environment Variables in the Vercel dashboard (`DATABASE_URL`, `NEXTAUTH_SECRET`, `OPENAI_API_KEY`, `MAPBOX_TOKEN`, etc.).
-4.  Vercel will automatically build and deploy the `main` branch.
-5.  Run database migrations against the production Supabase database (`npx prisma migrate deploy`).
+### Deployment Steps
+1.  **Frontend:** Connect the `frontend` folder to Vercel. Configure the `NEXT_PUBLIC_API_URL` environment variable to point to the backend deployment.
+2.  **Backend:** Create a `Dockerfile` or use native Python hosting (like Render). Set `DATABASE_URL` (Supabase), `OPENAI_API_KEY`, and `STRIPE_SECRET_KEY` in the hosting environment variables.
+3.  **Migrations:** Ensure Alembic migrations are run during the backend CI/CD deployment phase before the app starts (`alembic upgrade head`).
 
 ---
 
 ## 6. Legal & Content Considerations
 
-*   **Safety Disclaimers:** DIY repair involves significant risks (especially electrical or plumbing repairs). Every guide must have a prominent disclaimer: *"RepairIt provides guides for informational purposes only. Proceed at your own risk. Unplug electrical devices before starting any repair."*
+*   **Safety Disclaimers:** DIY repair involves significant risks. Every guide must have a prominent disclaimer: *"RepairIt provides guides for informational purposes only. Proceed at your own risk."*
 *   **Technician Liability:** The Terms of Service must clearly state that RepairIt acts solely as a *directory/marketplace* and is not liable for property damage or injuries caused by independent technicians.
-*   **Content Copyright:** Ensure user-submitted guides are original. Implement a Terms of Service stating users own their submissions but grant RepairIt an irrevocable license to display them. Do NOT scrape guides from existing sites like iFixit.
-*   **Video Embedding ToS:** By using the standard YouTube embed API (or `lite-youtube-embed`), you comply with YouTube's Terms of Service since you are not rehosting or downloading their content.
-*   **Affiliate Disclosures:** If you embed Amazon or other affiliate links for tools/materials, you must prominently display an FTC disclosure on the guide page (e.g., *"We may earn a commission from purchases made through our affiliate links."*).
+*   **Content Copyright:** Ensure user-submitted guides are original.
 *   **Payments & KYC:** If taking a percentage cut of technician bookings, you must use a service like Stripe Connect to handle KYC (Know Your Customer) identity verification to comply with money transmission regulations.
