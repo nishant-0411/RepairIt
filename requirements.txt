@@ -1,6 +1,24 @@
-openai
-python-dotenv
-requests
+# Web Framework
+fastapi
+uvicorn[standard]
+pydantic
+
+# Database & ORM
+sqlalchemy
+alembic
+asyncpg
 psycopg2-binary
 pgvector
+
+# AI & Integrations
+openai
+stripe
+
+# Utilities
+python-dotenv
+requests
 pandas
+
+# Testing
+pytest
+httpx
