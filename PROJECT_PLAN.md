@@ -183,58 +183,104 @@ Using FastAPI Routers under `/api/v1`:
 
 ## 4. Phased Implementation Plan
 
-### Phase 1: Foundation & Project Setup
-*   **Goal:** Initialize the Next.js frontend and FastAPI backend repositories/folders.
-*   **Step-by-Step:**
-    1.  **Backend Init:** Create `backend` folder, set up virtual environment (`python -m venv venv`), and install FastAPI: `pip install fastapi uvicorn pydantic`.
-    2.  **Frontend Init:** Create `frontend` folder, run `npx create-next-app@latest ./` (Select App Router).
-    3.  **Basic Routing:** Setup `/api/v1/health` endpoint in FastAPI and ensure the frontend can fetch from it.
+### Phase 1 - Foundation & Project Setup
+**Goal:** Initialize the Next.js frontend and FastAPI backend repositories/folders with basic routing and health checks.
 
-### Phase 2: Database & ORM Integration (Backend)
-*   **Goal:** Set up Supabase PostgreSQL, SQLAlchemy, and Alembic.
-*   **Step-by-Step:**
-    1.  **Setup Supabase:** Create a project, enable `pgvector`, get connection string.
-    2.  **Install DB Packages:** `pip install sqlalchemy alembic asyncpg psycopg2-binary pgvector`.
-    3.  **Define Models:** Write SQLAlchemy declarative models for Users, Guides, Technicians, etc.
-    4.  **Migrations:** Initialize Alembic (`alembic init alembic`), configure it to read your SQLAlchemy metadata, and run the first migration.
-    5.  **CRUD Operations:** Write Pydantic schemas and database CRUD functions.
+**Files to create and what to write in it:**
+- `frontend/package.json`: Define frontend scripts and dependencies.
+- `frontend/tsconfig.json`: TypeScript compiler configuration for Next.js.
+- `frontend/tailwind.config.ts`: TailwindCSS theme configuration.
+- `frontend/src/app/layout.tsx`: Root layout containing the global navbar, footer, and font imports.
+- `frontend/src/app/page.tsx`: Landing page with calls-to-action for troubleshooting and finding technicians.
+- `backend/requirements.txt`: List of Python dependencies.
+- `backend/main.py`: FastAPI application setup, CORS configuration, and a `/api/v1/health` endpoint.
+- `backend/app/api/v1/api.py`: FastAPI router aggregating all v1 endpoint routers.
+- `backend/app/core/config.py`: Pydantic settings management for environment variables.
 
-### Phase 3: Static UI & Mock Integration (Frontend)
-*   **Goal:** Build the Next.js UI using mocked API calls.
-*   **Step-by-Step:**
-    1.  **UI Components:** Build `GuideCard`, `TechnicianCard`, etc.
-    2.  **Pages:** Develop Homepage, Search, Guide Detail pages.
-    3.  **Connect to Backend:** Gradually replace mock data with fetch calls to your running FastAPI backend.
+**Install in this phase:**
+- **Frontend:** `next`, `react`, `react-dom`, `tailwindcss`, `postcss`, `autoprefixer`, `typescript`, `@types/node`, `@types/react`
+- **Backend:** `fastapi`, `uvicorn`, `pydantic`, `pydantic-settings`
 
-### Phase 4: Authentication & User Accounts
-*   **Goal:** Secure the API and UI.
-*   **Step-by-Step:**
-    1.  **Backend Auth:** Configure FastAPI to validate JWT tokens. You can use Supabase Auth to handle token generation, and FastAPI `Depends` to verify the JWT in protected routes.
-    2.  **Frontend Auth:** Integrate Supabase JS client to handle login/signup and store the session.
-    3.  **Protect UI Routes:** Add Next.js middleware to block unauthenticated users from `/dashboard`.
+### Phase 2 - Database & ORM Integration (Backend)
+**Goal:** Set up Supabase PostgreSQL, SQLAlchemy ORM, pgvector for AI, and Alembic migrations.
 
-### Phase 5: AI RAG & Guide Submission
-*   **Goal:** Implement guide creation and the AI assistant in Python.
-*   **Step-by-Step:**
-    1.  **Install AI Packages:** `pip install openai`.
-    2.  **Backend Embeddings:** When a POST request is made to create a guide, trigger OpenAI API to generate an embedding and save it to the `pgvector` column.
-    3.  **Chat Endpoint:** Implement `/api/v1/chat`. Use pgvector to find similar guides, build a prompt context, and return a streaming response using FastAPI's `StreamingResponse`.
-    4.  **Frontend Chat UI:** Build the Chat interface and handle the text stream.
+**Files to create and what to write in it:**
+- `backend/alembic.ini`: Alembic configuration file pointing to the database URL.
+- `backend/app/db/session.py`: SQLAlchemy engine setup and `get_db` dependency for routes.
+- `backend/app/db/base.py`: Base class for declarative models and imports to expose models to Alembic.
+- `backend/app/models/domain.py`: SQLAlchemy models for `User`, `TechnicianProfile`, `Category`, `Tool`, `Guide`, `GuideStep`, and `Booking`.
+- `backend/app/schemas/user.py`: Pydantic schemas for User creation and responses.
+- `backend/app/schemas/guide.py`: Pydantic schemas for Guide submission and retrieval.
+- `backend/app/schemas/technician.py`: Pydantic schemas for Technician profiles.
 
-### Phase 6: Technician Marketplace & Geolocation
-*   **Goal:** Add maps and Stripe integration.
-*   **Step-by-Step:**
-    1.  **Backend Spatial:** Add bounding box math or PostGIS queries in SQLAlchemy to find technicians nearby.
-    2.  **Stripe API:** `pip install stripe`. Add endpoints for creating payment intents and managing Connected accounts.
-    3.  **Frontend Map:** Integrate `mapbox-gl` into Next.js.
-    4.  **Booking Flow:** Complete the frontend and backend loop for requesting bookings.
+**Install in this phase:**
+- **Backend:** `sqlalchemy`, `alembic`, `asyncpg`, `psycopg2-binary`, `pgvector`
 
-### Phase 7: Polish, Testing & Deployment
-*   **Goal:** Unit tests and production deployment.
-*   **Step-by-Step:**
-    1.  **Backend Testing:** Write `pytest` fixtures for database and endpoint testing.
-    2.  **Frontend Testing:** Use `Playwright` for E2E tests.
-    3.  **Deployment:** Deploy Next.js to Vercel. Deploy FastAPI app to Render, Railway, or Heroku via a Dockerfile or standard Python buildpacks.
+### Phase 3 - Static UI & Mock Integration (Frontend)
+**Goal:** Build the Next.js UI using mocked API calls before connecting the real database routes.
+
+**Files to create and what to write in it:**
+- `frontend/src/components/ui/GuideCard.tsx`: Reusable component displaying guide title, difficulty, and thumbnail.
+- `frontend/src/components/ui/TechnicianCard.tsx`: Reusable component displaying technician name, rating, and rate.
+- `frontend/src/app/guides/page.tsx`: Guides directory page with filtering UI (category, difficulty).
+- `frontend/src/app/guides/[slug]/page.tsx`: Individual guide detail page showing steps and tools.
+- `frontend/src/app/technicians/page.tsx`: Technicians directory page for searching nearby pros.
+
+**Install in this phase:**
+- **Frontend:** `lucide-react`, `clsx`, `tailwind-merge` (optional shadcn/ui utilities)
+
+### Phase 4 - Authentication & User Accounts
+**Goal:** Secure the API and UI using Supabase Auth or standard JWTs.
+
+**Files to create and what to write in it:**
+- `backend/app/api/v1/endpoints/auth.py`: Endpoints to handle user registration, login, and token generation/validation.
+- `backend/app/core/security.py`: JWT encoding/decoding and password hashing logic.
+- `frontend/middleware.ts`: Next.js middleware to protect routes like `/dashboard` from unauthenticated users.
+- `frontend/src/app/login/page.tsx`: Login and signup forms.
+- `frontend/src/app/dashboard/page.tsx`: User dashboard to view saved guides, active bookings, and submitted guides.
+- `frontend/src/lib/auth.ts`: Supabase client initialization for the frontend.
+
+**Install in this phase:**
+- **Backend:** `passlib[bcrypt]`, `pyjwt`
+- **Frontend:** `@supabase/supabase-js`, `@supabase/ssr`
+
+### Phase 5 - AI RAG & Guide Submission
+**Goal:** Implement user guide creation and the AI troubleshooting assistant.
+
+**Files to create and what to write in it:**
+- `backend/app/api/v1/endpoints/guides.py`: Endpoints to CRUD guides, triggering embeddings upon guide creation.
+- `backend/app/api/v1/endpoints/chat.py`: Endpoint accepting user troubleshooting queries, doing pgvector similarity search, and streaming AI responses.
+- `backend/app/services/ai.py`: Abstraction logic interacting with the OpenAI API for embeddings and chat completions.
+- `frontend/src/app/troubleshoot/page.tsx`: Chat UI interface utilizing the Vercel AI SDK to stream troubleshooting assistance.
+
+**Install in this phase:**
+- **Backend:** `openai`
+- **Frontend:** `ai` (Vercel AI SDK)
+
+### Phase 6 - Technician Marketplace & Geolocation
+**Goal:** Add maps and Stripe integration for technician booking.
+
+**Files to create and what to write in it:**
+- `backend/app/api/v1/endpoints/technicians.py`: Endpoints to query technicians by spatial bounding boxes.
+- `backend/app/api/v1/endpoints/bookings.py`: Endpoints handling Stripe Connect payments, booking creation, and status updates.
+- `backend/app/services/mapbox.py`: Optional helper service to interact with external map APIs if reverse geocoding is needed.
+- `frontend/src/components/ui/Map.tsx`: Interactive map component displaying technician pins.
+
+**Install in this phase:**
+- **Backend:** `stripe`
+- **Frontend:** `mapbox-gl`, `react-map-gl`, `@stripe/stripe-js`, `@stripe/react-stripe-js`
+
+### Phase 7 - Polish, Testing & Deployment
+**Goal:** Implement unit tests and prepare for production deployment.
+
+**Files to create and what to write in it:**
+- `backend/tests/test_guides.py`: Pytest file for testing guide CRUD and embedding generation.
+- `frontend/playwright.config.ts`: E2E testing configuration.
+- `frontend/tests/guides.test.ts`: Playwright test to verify a user can view a guide end-to-end.
+
+**Install in this phase:**
+- **Backend:** `pytest`, `httpx`
+- **Frontend:** `@playwright/test`
 
 ---
 
