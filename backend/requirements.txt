@@ -1,24 +1,9 @@
-# Web Framework
-fastapi
-uvicorn[standard]
-pydantic
-
-# Database & ORM
-sqlalchemy
-alembic
-asyncpg
-psycopg2-binary
-pgvector
-
-# AI & Integrations
-openai
-stripe
-
-# Utilities
-python-dotenv
-requests
-pandas
-
-# Testing
-pytest
-httpx
+# Core
+fastapi==0.115.5
+uvicorn[standard]==0.32.1
+ 
+# Settings management
+pydantic-settings==2.6.1
+ 
+# Environment variables
+python-dotenv==1.0.1

@@ -192,10 +192,10 @@ Using FastAPI Routers under `/api/v1`:
 - `frontend/tailwind.config.ts`: TailwindCSS theme configuration.
 - `frontend/src/app/layout.tsx`: Root layout containing the global navbar, footer, and font imports.
 - `frontend/src/app/page.tsx`: Landing page with calls-to-action for troubleshooting and finding technicians.
-- `backend/requirements.txt`: List of Python dependencies.
+- `backend/requirements.txt`: List of Python dependencies. [Done]
 - `backend/main.py`: FastAPI application setup, CORS configuration, and a `/api/v1/health` endpoint. [Done]
-- `backend/app/api/v1/api.py`: FastAPI router aggregating all v1 endpoint routers.
-- `backend/app/core/config.py`: Pydantic settings management for environment variables.
+- `backend/app/api/v1/api.py`: FastAPI router aggregating all v1 endpoint routers. [Done]
+- `backend/app/core/config.py`: Pydantic settings management for environment variables. [Done]
 
 **Install in this phase:**
 - **Frontend:** `next`, `react`, `react-dom`, `tailwindcss`, `postcss`, `autoprefixer`, `typescript`, `@types/node`, `@types/react`
