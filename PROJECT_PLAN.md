@@ -205,10 +205,10 @@ Using FastAPI Routers under `/api/v1`:
 **Goal:** Set up Supabase PostgreSQL, SQLAlchemy ORM, pgvector for AI, and Alembic migrations.
 
 **Files to create and what to write in it:**
-- `backend/alembic.ini`: Alembic configuration file pointing to the database URL.
-- `backend/app/db/session.py`: SQLAlchemy engine setup and `get_db` dependency for routes.
-- `backend/app/db/base.py`: Base class for declarative models and imports to expose models to Alembic.
-- `backend/app/models/domain.py`: SQLAlchemy models for `User`, `TechnicianProfile`, `Category`, `Tool`, `Guide`, `GuideStep`, and `Booking`.
+- `backend/alembic.ini`: Alembic configuration file pointing to the database URL. [Done]
+- `backend/app/db/session.py`: SQLAlchemy engine setup and `get_db` dependency for routes. [Done]
+- `backend/app/db/base.py`: Base class for declarative models and imports to expose models to Alembic. [Done]
+- `backend/app/models/domain.py`: SQLAlchemy models for `User`, `TechnicianProfile`, `Category`, `Tool`, `Guide`, `GuideStep`, and `Booking`. [Done]
 - `backend/app/schemas/user.py`: Pydantic schemas for User creation and responses.
 - `backend/app/schemas/guide.py`: Pydantic schemas for Guide submission and retrieval.
 - `backend/app/schemas/technician.py`: Pydantic schemas for Technician profiles.
