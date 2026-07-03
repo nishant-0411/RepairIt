@@ -209,9 +209,9 @@ Using FastAPI Routers under `/api/v1`:
 - `backend/app/db/session.py`: SQLAlchemy engine setup and `get_db` dependency for routes. [Done]
 - `backend/app/db/base.py`: Base class for declarative models and imports to expose models to Alembic. [Done]
 - `backend/app/models/domain.py`: SQLAlchemy models for `User`, `TechnicianProfile`, `Category`, `Tool`, `Guide`, `GuideStep`, and `Booking`. [Done]
-- `backend/app/schemas/user.py`: Pydantic schemas for User creation and responses.
-- `backend/app/schemas/guide.py`: Pydantic schemas for Guide submission and retrieval.
-- `backend/app/schemas/technician.py`: Pydantic schemas for Technician profiles.
+- `backend/app/schemas/user.py`: Pydantic schemas for User creation and responses. [Done]
+- `backend/app/schemas/guide.py`: Pydantic schemas for Guide submission and retrieval. [Done]
+- `backend/app/schemas/technician.py`: Pydantic schemas for Technician profiles. [Done]
 
 **Install in this phase:**
 - **Backend:** `sqlalchemy`, `alembic`, `asyncpg`, `psycopg2-binary`, `pgvector`
