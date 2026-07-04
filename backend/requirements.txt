@@ -1,9 +1,16 @@
 # Core
 fastapi==0.115.5
 uvicorn[standard]==0.32.1
- 
+
 # Settings management
 pydantic-settings==2.6.1
- 
+
 # Environment variables
 python-dotenv==1.0.1
+
+# Database & ORM
+sqlalchemy
+alembic
+asyncpg
+psycopg2-binary
+pgvector
