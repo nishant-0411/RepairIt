@@ -199,7 +199,7 @@ Using FastAPI Routers under `/api/v1`:
 
 **Install in this phase:**
 - **Frontend:** `next`, `react`, `react-dom`, `tailwindcss`, `postcss`, `autoprefixer`, `typescript`, `@types/node`, `@types/react`
-- **Backend:** `fastapi`, `uvicorn`, `pydantic`, `pydantic-settings`
+- **Backend:** `fastapi`, `uvicorn`, `pydantic`, `pydantic-settings` [Done]
 
 ### Phase 2 - Database & ORM Integration (Backend)
 **Goal:** Set up Supabase PostgreSQL, SQLAlchemy ORM, pgvector for AI, and Alembic migrations.
@@ -214,7 +214,7 @@ Using FastAPI Routers under `/api/v1`:
 - `backend/app/schemas/technician.py`: Pydantic schemas for Technician profiles. [Done]
 
 **Install in this phase:**
-- **Backend:** `sqlalchemy`, `alembic`, `asyncpg`, `psycopg2-binary`, `pgvector`
+- **Backend:** `sqlalchemy`, `alembic`, `asyncpg`, `psycopg2-binary`, `pgvector` [Done]
 
 ### Phase 3 - Static UI & Mock Integration (Frontend)
 **Goal:** Build the Next.js UI using mocked API calls before connecting the real database routes.
