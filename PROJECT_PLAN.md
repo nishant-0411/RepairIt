@@ -220,11 +220,11 @@ Using FastAPI Routers under `/api/v1`:
 **Goal:** Build the Next.js UI using mocked API calls before connecting the real database routes.
 
 **Files to create and what to write in it:**
-- `frontend/src/components/ui/GuideCard.tsx`: Reusable component displaying guide title, difficulty, and thumbnail.
-- `frontend/src/components/ui/TechnicianCard.tsx`: Reusable component displaying technician name, rating, and rate.
-- `frontend/src/app/guides/page.tsx`: Guides directory page with filtering UI (category, difficulty).
-- `frontend/src/app/guides/[slug]/page.tsx`: Individual guide detail page showing steps and tools.
-- `frontend/src/app/technicians/page.tsx`: Technicians directory page for searching nearby pros.
+- `frontend/src/components/ui/GuideCard.tsx`: Reusable component displaying guide title, difficulty, and thumbnail. [Done]
+- `frontend/src/components/ui/TechnicianCard.tsx`: Reusable component displaying technician name, rating, and rate. [Done]
+- `frontend/src/app/guides/page.tsx`: Guides directory page with filtering UI (category, difficulty). [Done]
+- `frontend/src/app/guides/[slug]/page.tsx`: Individual guide detail page showing steps and tools. [Done]
+- `frontend/src/app/technicians/page.tsx`: Technicians directory page for searching nearby pros. [Done]
 
 **Install in this phase:**
 - **Frontend:** `lucide-react`, `clsx`, `tailwind-merge` (optional shadcn/ui utilities)
