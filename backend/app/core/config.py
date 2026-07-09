@@ -14,4 +14,8 @@ class Settings(BaseSettings):
 
     ALLOWED_ORIGINS: list[str] = ["http://localhost:3000"]
 
+    SECRET_KEY: str = "changethis"
+    ALGORITHM: str = "HS256"
+    ACCESS_TOKEN_EXPIRE_MINUTES: int = 30
+
 settings = Settings()
