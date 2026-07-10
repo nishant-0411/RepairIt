@@ -233,8 +233,8 @@ Using FastAPI Routers under `/api/v1`:
 **Goal:** Secure the API and UI using Supabase Auth or standard JWTs.
 
 **Files to create and what to write in it:**
-- `backend/app/api/v1/endpoints/auth.py`: Endpoints to handle user registration, login, and token generation/validation.
-- `backend/app/core/security.py`: JWT encoding/decoding and password hashing logic.
+- `backend/app/api/v1/endpoints/auth.py`: Endpoints to handle user registration, login, and token generation/validation. [Done]
+- `backend/app/core/security.py`: JWT encoding/decoding and password hashing logic. [Done]
 - `frontend/middleware.ts`: Next.js middleware to protect routes like `/dashboard` from unauthenticated users.
 - `frontend/src/app/login/page.tsx`: Login and signup forms.
 - `frontend/src/app/dashboard/page.tsx`: User dashboard to view saved guides, active bookings, and submitted guides.
