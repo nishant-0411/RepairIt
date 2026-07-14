@@ -238,7 +238,7 @@ Using FastAPI Routers under `/api/v1`:
 - `frontend/middleware.ts`: Next.js middleware to protect routes like `/dashboard` from unauthenticated users.
 - `frontend/src/app/login/page.tsx`: Login and signup forms.
 - `frontend/src/app/dashboard/page.tsx`: User dashboard to view saved guides, active bookings, and submitted guides.
-- `frontend/src/lib/auth.ts`: Supabase client initialization for the frontend.
+- `frontend/src/lib/auth.ts`: Supabase client initialization for the frontend. [Done]
 
 **Install in this phase:**
 - **Backend:** `passlib[bcrypt]`, `pyjwt`
