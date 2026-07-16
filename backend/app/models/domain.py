@@ -1,5 +1,6 @@
 import enum
 from datetime import datetime
+from pgvector.sqlalchemy import Vector
 from sqlalchemy import (
     Column,
     Integer,
@@ -102,6 +103,7 @@ class GuideStep(Base):
     step_number = Column(Integer, nullable=False)
     instruction = Column(Text, nullable=False)
     image_url = Column(String(500), nullable=True)
+    embedding = Column(Vector(1536), nullable=True)
 
     guide = relationship("Guide", back_populates="steps")
 
