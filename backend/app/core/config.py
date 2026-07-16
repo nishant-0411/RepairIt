@@ -17,5 +17,7 @@ class Settings(BaseSettings):
     SECRET_KEY: str = "changethis"
     ALGORITHM: str = "HS256"
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 30
+    
+    OPENAI_API_KEY: str = ""
 
 settings = Settings()
