@@ -1,13 +1,26 @@
 'use client';
 
+import { useState } from 'react';
 import { useChat } from '@ai-sdk/react';
-import { HttpChatTransport } from 'ai';
+import { DefaultChatTransport } from 'ai';
 import { Send, User, Bot } from 'lucide-react';
 
 export default function TroubleshootPage() {
-  const { messages, input, handleInputChange, handleSubmit } = useChat({
-    transport: new HttpChatTransport({ url: 'http://localhost:8000/api/v1/chat/' }),
+  const [input, setInput] = useState('');
+  const { messages, sendMessage } = useChat({
+    transport: new DefaultChatTransport({ api: 'http://localhost:8000/api/v1/chat/' }),
   });
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setInput(e.target.value);
+  };
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (!input.trim()) return;
+    sendMessage({ parts: [{ type: 'text', text: input }] });
+    setInput('');
+  };
 
   return (
     <div className="flex flex-col h-screen bg-gray-50">
@@ -16,16 +29,19 @@ export default function TroubleshootPage() {
       </header>
 
       <main className="flex-1 overflow-y-auto p-6 max-w-4xl mx-auto w-full">
-        {messages.map((m) => (
-          <div key={m.id} className={`flex items-start gap-4 mb-6 ${m.role === 'user' ? 'flex-row-reverse' : ''}`}>
-            <div className={`p-2 rounded-full ${m.role === 'user' ? 'bg-blue-100 text-blue-600' : 'bg-gray-200 text-gray-600'}`}>
-              {m.role === 'user' ? <User size={20} /> : <Bot size={20} />}
+        {messages.map((m) => {
+          const textContent = m.parts?.filter((p: any) => p.type === 'text').map((p: any) => p.text).join('\n') || '';
+          return (
+            <div key={m.id} className={`flex items-start gap-4 mb-6 ${m.role === 'user' ? 'flex-row-reverse' : ''}`}>
+              <div className={`p-2 rounded-full ${m.role === 'user' ? 'bg-blue-100 text-blue-600' : 'bg-gray-200 text-gray-600'}`}>
+                {m.role === 'user' ? <User size={20} /> : <Bot size={20} />}
+              </div>
+              <div className={`px-4 py-3 rounded-2xl max-w-[80%] ${m.role === 'user' ? 'bg-blue-600 text-white rounded-tr-sm' : 'bg-white shadow-sm border border-gray-100 rounded-tl-sm text-gray-800'}`}>
+                <p className="whitespace-pre-wrap">{textContent}</p>
+              </div>
             </div>
-            <div className={`px-4 py-3 rounded-2xl max-w-[80%] ${m.role === 'user' ? 'bg-blue-600 text-white rounded-tr-sm' : 'bg-white shadow-sm border border-gray-100 rounded-tl-sm text-gray-800'}`}>
-              <p className="whitespace-pre-wrap">{m.content}</p>
-            </div>
-          </div>
-        ))}
+          );
+        })}
       </main>
 
       <footer className="bg-white border-t p-4">
