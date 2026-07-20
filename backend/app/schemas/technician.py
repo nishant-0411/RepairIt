@@ -6,6 +6,8 @@ class TechnicianProfileBase(BaseModel):
     bio: Optional[str] = None
     years_experience: Optional[int] = 0
     hourly_rate: Optional[float] = None
+    latitude: Optional[float] = None
+    longitude: Optional[float] = None
 
 class TechnicianProfileCreate(TechnicianProfileBase):
     user_id: int

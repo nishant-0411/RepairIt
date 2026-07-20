@@ -52,6 +52,8 @@ class TechnicianProfile(Base):
     hourly_rate = Column(Float, nullable=True)
     is_verified = Column(Boolean, default=False, nullable=False)
     rating = Column(Float, default=0.0, nullable=False)
+    latitude = Column(Float, nullable=True)
+    longitude = Column(Float, nullable=True)
     created_at = Column(DateTime, default=datetime.utcnow, nullable=False)
 
     user = relationship("User", back_populates="technician_profile")

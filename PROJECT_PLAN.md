@@ -248,10 +248,10 @@ Using FastAPI Routers under `/api/v1`:
 **Goal:** Implement user guide creation and the AI troubleshooting assistant.
 
 **Files to create and what to write in it:**
-- `backend/app/api/v1/endpoints/guides.py`: Endpoints to CRUD guides, triggering embeddings upon guide creation.
-- `backend/app/api/v1/endpoints/chat.py`: Endpoint accepting user troubleshooting queries, doing pgvector similarity search, and streaming AI responses.
-- `backend/app/services/ai.py`: Abstraction logic interacting with the OpenAI API for embeddings and chat completions.
-- `frontend/src/app/troubleshoot/page.tsx`: Chat UI interface utilizing the Vercel AI SDK to stream troubleshooting assistance.
+- `backend/app/api/v1/endpoints/guides.py`: Endpoints to CRUD guides, triggering embeddings upon guide creation. [Done]
+- `backend/app/api/v1/endpoints/chat.py`: Endpoint accepting user troubleshooting queries, doing pgvector similarity search, and streaming AI responses. [Done]
+- `backend/app/services/ai.py`: Abstraction logic interacting with the OpenAI API for embeddings and chat completions. [Done]
+- `frontend/src/app/troubleshoot/page.tsx`: Chat UI interface utilizing the Vercel AI SDK to stream troubleshooting assistance. [Done]
 
 **Install in this phase:**
 - **Backend:** `openai`
@@ -261,7 +261,7 @@ Using FastAPI Routers under `/api/v1`:
 **Goal:** Add maps and Stripe integration for technician booking.
 
 **Files to create and what to write in it:**
-- `backend/app/api/v1/endpoints/technicians.py`: Endpoints to query technicians by spatial bounding boxes.
+- `backend/app/api/v1/endpoints/technicians.py`: Endpoints to query technicians by spatial bounding boxes. [Done]
 - `backend/app/api/v1/endpoints/bookings.py`: Endpoints handling Stripe Connect payments, booking creation, and status updates.
 - `backend/app/services/mapbox.py`: Optional helper service to interact with external map APIs if reverse geocoding is needed.
 - `frontend/src/components/ui/Map.tsx`: Interactive map component displaying technician pins.
