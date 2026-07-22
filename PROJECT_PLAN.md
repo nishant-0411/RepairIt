@@ -262,7 +262,7 @@ Using FastAPI Routers under `/api/v1`:
 
 **Files to create and what to write in it:**
 - `backend/app/api/v1/endpoints/technicians.py`: Endpoints to query technicians by spatial bounding boxes. [Done]
-- `backend/app/api/v1/endpoints/bookings.py`: Endpoints handling Stripe Connect payments, booking creation, and status updates.
+- `backend/app/api/v1/endpoints/bookings.py`: Endpoints handling Stripe Connect payments, booking creation, and status updates. [Done]
 - `backend/app/services/mapbox.py`: Optional helper service to interact with external map APIs if reverse geocoding is needed.
 - `frontend/src/components/ui/Map.tsx`: Interactive map component displaying technician pins.
 
