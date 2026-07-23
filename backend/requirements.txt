@@ -18,3 +18,7 @@ passlib[bcrypt]
 PyJWT
 openai==1.55.3
 stripe==11.4.0
+
+# Testing
+pytest
+httpx
