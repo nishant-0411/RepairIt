@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useMemo } from "react";
-import Map, { Marker, Popup, NavigationControl, GeolocateControl } from "react-map-gl";
+import Map, { Marker, Popup, NavigationControl, GeolocateControl } from "react-map-gl/mapbox";
 import "mapbox-gl/dist/mapbox-gl.css";
 import { Star, CheckCircle, Navigation } from "lucide-react";
 import Link from "next/link";
@@ -57,7 +57,7 @@ export function TechnicianMap({
             longitude={tech.lng}
             latitude={tech.lat}
             anchor="bottom"
-            onClick={e => {
+            onClick={(e: any) => {
               e.originalEvent.stopPropagation();
               setPopupInfo(tech);
             }}
